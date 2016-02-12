@@ -10,10 +10,6 @@ require 'Models/Imagen.php';
 require 'Models/Noticia.php';
 require 'Models/Post.php';
 require 'Models/comment.php';
-<<<<<<< HEAD
-require 'Models/NewsComment.php';
-=======
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 require 'Models/trabajo.php';
 
 
@@ -259,7 +255,6 @@ $app->delete('/usuarios/:id', function ($id) use ($app) {
 });
 
 
-<<<<<<< HEAD
 $app->get('/post/:id', function ($id) use ($app) {
  	$db = $app->db->getConnection();
  	$post = Image::find($id);
@@ -282,8 +277,6 @@ $app->get('/post/:id', function ($id) use ($app) {
  });
  
 
-=======
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 $app->get('/noticias', function () use ($app) {
 	$db = $app->db->getConnection();
 	$images = $db->table('noticias')->select()->orderby('created_at','desc')->get();
@@ -406,10 +399,7 @@ $app->post('/imagenes', function () use ($app) {
     $imagen = new Image();
     $imagen->Titulo = $Titulo;
     $imagen->Descripcion = $Descripcion;
-<<<<<<< HEAD
       $imagen->IdUsuario = $user->id;
-=======
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
  
      
     $imagen->save();
@@ -470,7 +460,6 @@ $app->delete('/imagenes/:id', function ($id) use ($app) {
 });
 
 
-<<<<<<< HEAD
 //comentarios:
 
 
@@ -526,61 +515,6 @@ $app->delete('/comments/:id', function ($id) use ($app) {
 	$app->render(200);
 });
 
-//comentarios de noticias:
-
-$app->get('/newscomments', function () use ($app) {
-	$db = $app->db->getConnection();
-	$newscomments = $db->table('newscomments')->select()->orderby('created_at','desc')->get();
-	$app->render(200,array('data' => $newscomments));
-});
-
-
-
-$app->put('/newscomments/:id', function ($id) use ($app) {
-	$input = $app->request->getBody();
-	
-	$text = $input['text'];
-	if(empty($text)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'text is required',
-        ));
-	}
-
-	$newscomment = NewsComment::find($id);
-	if(empty($newscomment)){
-		$app->render(404,array(
-			'error' => TRUE,
-            'msg'   => 'newscomment not found',
-        ));
-	}
-    $newscomment->text = $text;
-    $newscomment->save();
-    $app->render(200,array('data' => $newscomment->toArray()));
-});
-$app->get('/newscomments/:id', function ($id) use ($app) {
-	$newscomment = newsComment::find($id);
-	if(empty($newscomment)){
-		$app->render(404,array(
-			'error' => TRUE,
-            'msg'   => 'newscomment not found',
-        ));
-	}
-	$app->render(200,array('data' => $newscomment->toArray()));
-});
-$app->delete('/newscomments/:id', function ($id) use ($app) {
-	$newscomment = NewsComment::find($id);
-	if(empty($newscomment)){
-		$app->render(404,array(
-			'error' => TRUE,
-            'msg'   => 'comment not found',
-        ));
-	}
-	$comment->delete();
-	$app->render(200);
-});
-=======
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 //trabajos:
 
 $app->get('/trabajos', function () use ($app) {
@@ -675,7 +609,6 @@ $app->delete('/trabajos/:id', function ($id) use ($app) {
 
 
 
-<<<<<<< HEAD
 $app->get('/imagenes/:id', function ($id) use ($app) {
 	$db = $app->db->getConnection();
 	$imagen = Image::find($id);
@@ -683,15 +616,6 @@ $app->get('/imagenes/:id', function ($id) use ($app) {
 		$app->render(404,array(
 			'error' => TRUE,
             'msg'   => 'imagen not found',
-=======
-$app->get('/post/:id', function ($id) use ($app) {
-	$db = $app->db->getConnection();
-	$post = Post::find($id);
-	if(empty($post)){
-		$app->render(404,array(
-			'error' => TRUE,
-            'msg'   => 'post not found',
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
         ));
 	}
 
@@ -699,7 +623,6 @@ $app->get('/post/:id', function ($id) use ($app) {
 	$post->user = User::find($post->id_usuario);
 	*/
 
-<<<<<<< HEAD
 	$imagen->user = $db->table('usuarios')->select('id','name', 'email')->where('id', $imagen->IdUsuario)->get();
 
 	unset($imagen->id_usuario);
@@ -708,16 +631,6 @@ $app->get('/post/:id', function ($id) use ($app) {
 });
 
 $app->post('/imagen', function () use ($app) {
-=======
-	$post->user = $db->table('usuarios')->select('id','name', 'email')->where('id', $post->id_usuario)->get();
-
-	unset($post->id_usuario);
-	
-	$app->render(200,array('data' => $post->toArray()));
-});
-
-$app->post('/post', function () use ($app) {
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 	$token = $app->request->headers->get('auth-token');
 
 	if(empty($token)){
@@ -747,7 +660,6 @@ $app->post('/post', function () use ($app) {
         ));
 	}
 	
-<<<<<<< HEAD
 	$imagen = new Image();
 	$imagen->title = $title;
     $imagen->IdUsuario = $user->id;
@@ -756,16 +668,6 @@ $app->post('/post', function () use ($app) {
 });
 
 $app->post('/imagenes/:id/comment', function ($id) use ($app) {
-=======
-	$post = new Post();
-	$post->title = $title;
-    $post->id_usuario = $user->id;
-    $post->save();
-    $app->render(200,array('data' => $post->toArray()));
-});
-
-$app->post('/post/:id/comment', function ($id) use ($app) {
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 	$token = $app->request->headers->get('auth-token');
 
 	if(empty($token)){
@@ -774,17 +676,29 @@ $app->post('/post/:id/comment', function ($id) use ($app) {
             'msg'   => 'Not logged',
         ));
 	}
-<<<<<<< HEAD
 $app->get('/imagenes/:id/comment', function () use ($app) {
-	$db = $app->db->getConnection();
-	$comments = $db->table('comments')->select()->orderby('created_at','desc')->get();
-	$app->render(200,array('data' =>$comments));
+		$db = $app->db->getConnection();
+	$comments= Comment::find($id);
+	if(empty($comments)){
+		$app->render(404,array(
+			'error' => TRUE,
+            'msg'   => 'imagen not found',
+        ));
+	}
+
+	$comments->imagen= $db->table('imagenes')->select()->where('id', $comments->id_imagen)->orderby('created_at','desc')->get();
+	//$comments = $db->table('comments')->select()->orderby('created_at','desc')->get();
+	//$imagen->user = $db->table('usuarios')->select('id','name', 'email')->where('id', $imagen->IdUsuario)->get();
+
+
+	unset($comments->id_usuario);
+	
+
+
+	$app->render(200,array('data' =>$comments->toArray()));
 
 
 });
-=======
-
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 	$id_user_token = simple_decrypt($token, $app->enc_key);
 
 	$user = User::find($id_user_token);
@@ -796,19 +710,11 @@ $app->get('/imagenes/:id/comment', function () use ($app) {
 	}
 
 	$db = $app->db->getConnection();
-<<<<<<< HEAD
 	$imagen = Image::find($id);
 	if(empty($imagen)){
 		$app->render(404,array(
 			'error' => TRUE,
             'msg'   => 'imagen not found',
-=======
-	$post = Post::find($id);
-	if(empty($post)){
-		$app->render(404,array(
-			'error' => TRUE,
-            'msg'   => 'post not found',
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
         ));
 	}
 
@@ -824,21 +730,13 @@ $app->get('/imagenes/:id/comment', function () use ($app) {
 	$comment = new Comment();
 	$comment->text = $text;
 	$comment->id_usuario = $user->id;
-<<<<<<< HEAD
 	$comment->id_imagen= $imagen->id;
-=======
-	$comment->id_post = $post->id;
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 	$comment->save();
 	
 	$app->render(200,array('data' => $comment->toArray()));
 });
 
-<<<<<<< HEAD
 $app->post('/imagenes/:id/multicomment', function ($id) use ($app) {
-=======
-$app->post('/post/:id/multicomment', function ($id) use ($app) {
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 	$token = $app->request->headers->get('auth-token');
 
 	if(empty($token)){
@@ -859,19 +757,11 @@ $app->post('/post/:id/multicomment', function ($id) use ($app) {
 	}
 
 	$db = $app->db->getConnection();
-<<<<<<< HEAD
 	$iamgen = Image::find($id);
 	if(empty($iamgen)){
 		$app->render(404,array(
 			'error' => TRUE,
             'msg'   => 'imagen not found',
-=======
-	$post = Post::find($id);
-	if(empty($post)){
-		$app->render(404,array(
-			'error' => TRUE,
-            'msg'   => 'post not found',
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
         ));
 	}
 
@@ -892,11 +782,7 @@ $app->post('/post/:id/multicomment', function ($id) use ($app) {
 		$comment = new Comment();
 		$comment->text = $text;
 		$comment->id_usuario = $user->id;
-<<<<<<< HEAD
 		$comment->id_imagen= $imagen->id;
-=======
-		$comment->id_post = $post->id;
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 		$comment->save();
 		$created[] = $comment->toArray();
 	}
@@ -925,7 +811,6 @@ $app->get('/profile', function () use ($app) {
 	}
 
 	$db = $app->db->getConnection();
-<<<<<<< HEAD
 	$imagenes = $db->table('imagenes')->select()->where('IdUsuario', $user->id)->get();
 
 	foreach ($imagenes as $key => $imagen) {
@@ -937,19 +822,6 @@ $app->get('/profile', function () use ($app) {
 	}
 	
 	$app->render(200,array('data' => $imagenes));
-=======
-	$posts = $db->table('posts')->select()->where('id_usuario', $user->id)->get();
-
-	foreach ($posts as $key => $post) {
-		$comments = $db->table('comments')->select()->where('id_post', $post->id)->get();
-		foreach ($comments as $keyc => $comment) {
-			$comments[$keyc]->user = User::find($comment->id_usuario);
-		}
-		$posts[$key]->comments = $comments;
-	}
-	
-	$app->render(200,array('data' => $posts));
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 });
 
 $app->post('/findcomments', function () use ($app) {
@@ -978,252 +850,5 @@ $app->post('/findcomments', function () use ($app) {
 	$app->render(200,array('data' => $comments));
 });
 
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-//Conexion con la tabla favoritos
-$app->get('/fav', function () use ($app) {
-	$db = $app->db->getConnection();
-	$fav = $db->table('favoritos')->select('id', 'id_imagen', 'id_usuario')->get();
-	$app->render(200,array('data' => $fav));
-});
-// agregar favoritos
-$app->post('/favoritos', function () use ($app) {
-  $token = $app->request->headers->get('auth-token');
-	if(empty($token)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged',
-        ));
-	}
-	$id_user_token = simple_decrypt($token, $app->enc_key);
-	$user = User::find($id_user_token);
-	if(empty($user)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged',
-        ));
-	}
-	
-  $input = $app->request->getBody();
-  
-  $id_imagen = $input['id_imagen'];
-	if(empty($id_imagen)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Id anuncio is required',
-        ));
-	}
-	
-	$favorito = new Favorito();
-    $favorito->id_imagen = $id_imagen;
-    $favorito->id_usuario = $user->id;
-    $favorito->save();
-    $app->render(200,array('data' => $favorito->toArray()));
-});
-// Traer favorito especifico para borrar
-$app->get('/misfavoritos', function () use ($app) {
-  $token = $app->request->headers->get('auth-token');
-	if(empty($token)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged 12',
-        ));
-	}
-	$id_user_token = simple_decrypt($token, $app->enc_key);
-	$user = User::find($id_user_token);
-	if(empty($user)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged 15',
-        ));
-	}
-	
-	$input = $app->request->getBody();
-  
-	  $idanuncio = $input['id_imagen'];
-		if(empty($id_imagen)){
-			$app->render(500,array(
-				'error' => TRUE,
-				'msg'   => 'Id imagen is required',
-			));
-		}
-	
-	$db = $app->db->getConnection();
-	
-	$favoritos = $db->table('favoritos')->select('id', 'id_usuario', 'id_imagen')->where('id_usuario', $user->id)->where('id_imagen', $id_imagen)->get();
-	
-	$app->render(200,array('data' => $favoritos));
-});
-// ver favorito y borrar 
-$app->delete('/delfavoritos', function () use ($app) {
-  $token = $app->request->headers->get('auth-token');
-	if(empty($token)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged 13',
-        ));
-	}
-	$id_user_token = simple_decrypt($token, $app->enc_key);
-	$user = User::find($id_user_token);
-	if(empty($user)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged 15',
-        ));
-	}
-	
-	
-	$input = $app->request->getBody();
-  
-	  $id_imagen = $input['id_imagen'];
-		if(empty($id_imagen)){
-			$app->render(500,array(
-				'error' => TRUE,
-				'msg'   => 'Id imagen is required',
-			));
-		}
-	
-	$db = $app->db->getConnection();
-	
-	$favoritos = $db->table('favoritos')->select('id', 'id_usuario', 'id_imagen')->where('id_usuario', $user->id)->where('id_imagen', $id_imagen)->get();
-	
-	$idfav = $favoritos->id;
-	
-	$favorito = Favorito::find($idfav);
-	if(empty($favorito)){
-		$app->render(404,array(
-			'error' => TRUE,
-            'msg'   => 'favorito not found 4',
-        ));
-	}
-	$favorito->delete();
-	$app->render(200);
-		
-});
-// listar mis favoritos
-$app->get('/misfavoritoslist', function () use ($app) {
-	
-	$token = $app->request->headers->get('auth-token');
-	if(empty($token)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged',
-        ));
-	}
-	$id_user_token = simple_decrypt($token, $app->enc_key);
-	$user = User::find($id_user_token);
-	if(empty($user)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged',
-        ));
-	}
-	
-	
-	$db = $app->db->getConnection();
-	
-	$favoritos = $db->table('favoritos')->select('id', 'id_usuario', 'id_imagen')->where('id_usuario', $user->id)->get();
-	foreach ($favoritos as $key => $favoritos) {
-		$imagenes = $db->table('imagenes')->select('id', 'id_usuario', 'titulo', 'precio', 'descripcion', 'barrio')->where('id', $favoritos->id_imagen)->get();
-		
-		$favoritos[$key]->imagenes = $imagenes;
-	}
-		
-	$app->render(200,array('data' => $favoritos));
-});
-// chat con el anunciante
-//Conexion con la tabla favoritos
-$app->get('/chats', function () use ($app) {
-	$db = $app->db->getConnection();
-	$chats = $db->table('chats')->select('id', 'iduserreceptor', 'iduseremisor', 'mensaje')->get();
-	$app->render(200,array('data' => $chats));
-});
-//Buscar por ID
-$app->get('/chat/:id', function ($idr) use ($app) {
-	
-	$userr = User::find($idr);
-	if(empty($userr)){
-		$app->render(404,array(
-			'error' => TRUE,
-            'msg'   => 'user not found',
-        ));
-	}
-	$token = $app->request->headers->get('auth-token');
-	if(empty($token)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged',
-        ));
-	}
-	$id_user_token = simple_decrypt($token, $app->enc_key);
-	$user = User::find($id_user_token);
-	if(empty($user)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged',
-        ));
-	}
-	$db = $app->db->getConnection();
-	$chats = $db->table('chats')->select('id', 'iduserreceptor', 'iduseremisor', 'mensaje')
-								->where('iduserreceptor', $idr)
-								->where('iduseremisor', $user->id)
-								->get();
-	$app->render(200,array('data' => $userr->toArray()));
-	$app->render(200,array('data' => $chats->toArray()));
-});
-//Insertar Mensaje
-$app->post('/enviarchat', function () use ($app) {
-  $token = $app->request->headers->get('auth-token');
-	if(empty($token)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged',
-        ));
-	}
-	$id_user_token = simple_decrypt($token, $app->enc_key);
-	$user = User::find($id_user_token);
-	if(empty($user)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Not logged',
-        ));
-	}
-	
-  $input = $app->request->getBody();
-  
-  $iduserreceptor = $input['iduserreceptor'];
-	if(empty($iduserreceptor)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Id receptor is required',
-        ));
-	}
-	$mensaje = $input['mensaje'];
-	if(empty($mensaje)){
-		$app->render(500,array(
-			'error' => TRUE,
-            'msg'   => 'Mensaje es necesario',
-        ));
-	}
-	
-	$chat = new Chat();
-    $chat->iduserreceptor = $iduserreceptor;
-    $chat->mensaje = $mensaje;
-    $chat->iduseremisor = $user->id;
-    $chat->save();
-    $app->render(200,array('data' => $chat->toArray()));
-});
-
-
-
-=======
->>>>>>> f8723e01db25c6fd24fda51cf2aaaf5a55c45ab2
 $app->run();
 ?>
